@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecole>
+
+    <etudiants>
+        <etudiant id="1" classe="3LSI" actif="true">
+            <nom>Ben Ali</nom>
+            <prenom>Aya</prenom>
+            <email>aya@fss.tn</email>
+            <specialite>LSI</specialite>
+            <moyenne>14.5</moyenne>
+        </etudiant>
+        <etudiant id="2" classe="3RT" actif="true">
+            <nom>Trabelsi</nom>
+            <prenom>Mariem</prenom>
+            <email>mariem@fss.tn</email>
+            <specialite>RT</specialite>
+            <moyenne>16.0</moyenne>
+        </etudiant>
+        <etudiant id="3" classe="3LSI" actif="true">
+            <nom>Mansouri</nom>
+            <prenom>Sami</prenom>
+            <email>sami@fss.tn</email>
+            <specialite>LSI</specialite>
+            <moyenne>14.5</moyenne>
+        </etudiant>
+        <etudiant id="4" classe="3LSI" actif="false">
+            <nom>Gharbi</nom>
+            <prenom>Yassine</prenom>
+            <email>yassine@fss.tn</email>
+            <specialite>LSI</specialite>
+            <moyenne>12.0</moyenne>
+        </etudiant>
+    </etudiants>
+
+    <enseignants>
+        <enseignant id="E1">
+            <nom>Ben Youssef</nom>
+            <prenom>Amine</prenom>
+            <grade>Maitre assistant</grade>
+            <departement>Informatique</departement>
+            <matiere>Java</matiere>
+        </enseignant>
+        <enseignant id="E2">
+            <nom>Trabelsi</nom>
+            <prenom>Salma</prenom>
+            <grade>Assistant</grade>
+            <departement>Informatique</departement>
+            <matiere>XML</matiere>
+        </enseignant>
+
+        <enseignant id="E3">
+            <nom>Mohamed</nom>
+            <prenom>Rim</prenom>
+            <grade>Assistant</grade>
+            <departement>Telecommunications</departement>
+            <matiere>Reseaux</matiere>
+        </enseignant>
+    </enseignants>
+
+    <classes>
+        <classe id="C1">
+            <nom>3LSI</nom>
+            <niveau>Licence</niveau>
+            <effectif>30</effectif>
+        </classe>
+        <classe id="C2">
+            <nom>3RT</nom>
+            <niveau>Licence</niveau>
+            <effectif>28</effectif>
+        </classe>
+    </classes>
+
+    <matieres>
+        <matiere id="M1" enseignantRef="E1">
+            <nom>Java</nom>
+            <coefficient>3</coefficient>
+            <credits>5</credits>
+        </matiere>
+        <matiere id="M2" enseignantRef="E2">
+            <nom>XML</nom>
+            <coefficient>2</coefficient>
+            <credits>4</credits>
+        </matiere>
+        <matiere id="M3" enseignantRef="E3">
+            <nom>Reseaux</nom>
+            <coefficient>2</coefficient>
+            <credits>4</credits>
+        </matiere>
+    </matieres>
+
+    <departements>
+        <departement id="D1">
+            <nom>Informatique</nom>
+            <chefRef>E1</chefRef>
+        </departement>
+        <departement id="D2">
+            <nom>Telecommunications</nom>
+            <chefRef>E3</chefRef>
+        </departement>
+    </departements>
+
+    <salles>
+        <salle id="S1" type="amphi">
+            <nom>Amphi A</nom>
+            <capacite>150</capacite>
+        </salle>
+        <salle id="S2" type="labo">
+            <nom>Labo Info 1</nom>
+            <capacite>30</capacite>
+        </salle>
+    </salles>
+
+
+
+</ecole>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- ===== Types simples ===== -->
+    <xs:simpleType name="moyenneType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+     <!-- Ce type impose une valeur numérique décimale comprise entre 0 et 20, bornes incluses.-->
+    <xs:simpleType name="specialiteType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LSI"/>
+            <xs:enumeration value="RT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--L'étudiant peut avoir uniquement l'une des deux spécialités : LSI ou RT -->
+
+    <xs:simpleType name="niveauType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Licence"/>
+            <xs:enumeration value="Master"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Les valeurs autorisées sont Licence et Master.-->
+
+    <xs:simpleType name="salleTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="amphi"/>
+            <xs:enumeration value="labo"/>
+            <xs:enumeration value="cours"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Les valeurs autorisées sont amphi, labo et cours.-->
+
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@\s]+@[^@\s]+\.[a-z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+<!--Cette expression régulière impose une forme générale d'adresse électronique : du texte avant @, un domaine et un suffixe après le point.-->
+
+
+    <!-- ===== Types complexes ===== -->
+    <xs:complexType name="etudiantType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="prenom" type="xs:string"/>
+            <xs:element name="email" type="emailType"/>
+            <xs:element name="specialite" type="specialiteType"/>
+            <xs:element name="moyenne" type="moyenneType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="classe" type="xs:string" use="required"/>
+        <xs:attribute name="actif" type="xs:boolean" use="required"/>
+    </xs:complexType>
+    <!--Ce code indique que l'étudiant doit contenir les cinq éléments dans l'ordre indiqué : nom, prenom, email, specialite, puis moyenne.
+       L'attribut id est obligatoire et doit être un entier strictement positif.-->
+
+    <xs:complexType name="enseignantType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="prenom" type="xs:string"/>
+            <xs:element name="grade" type="xs:string"/>
+            <xs:element name="departement" type="xs:string"/>
+            <xs:element name="matiere" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="classeType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="niveau" type="niveauType"/>
+            <xs:element name="effectif" type="xs:positiveInteger"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="matiereType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="coefficient" type="xs:positiveInteger"/>
+            <xs:element name="credits" type="xs:positiveInteger"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="enseignantRef" type="xs:IDREF" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="departementType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="chefRef" type="xs:IDREF"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="salleType">
+        <xs:sequence>
+            <xs:element name="nom" type="xs:string"/>
+            <xs:element name="capacite" type="xs:positiveInteger"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="type" type="salleTypeType" use="required"/>
+    </xs:complexType>
+
+
+    <!-- ===== Racine ===== -->
+    <xs:element name="ecole">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="etudiants">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="etudiant" type="etudiantType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+                <xs:element name="enseignants">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="enseignant" type="enseignantType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+                <xs:element name="classes">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="classe" type="classeType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+                <xs:element name="matieres">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="matiere" type="matiereType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+                <xs:element name="departements">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="departement" type="departementType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+                <xs:element name="salles">
+                    <xs:complexType><xs:sequence>
+                        <xs:element name="salle" type="salleType" maxOccurs="unbounded"/>
+                    </xs:sequence></xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+        <!-- ===== Contraintes d'integrite (key / keyref) ===== -->
+
+        <!-- classe.nom <- etudiant.@classe -->
+        <xs:key name="classeNomKey">
+            <xs:selector xpath="classes/classe"/>
+            <xs:field xpath="nom"/>
+        </xs:key>
+        <xs:keyref name="etudiantClasseRef" refer="classeNomKey">
+            <xs:selector xpath="etudiants/etudiant"/>
+            <xs:field xpath="@classe"/>
+        </xs:keyref>
+
+        <!-- matiere.nom <- enseignant.matiere -->
+        <xs:key name="matiereNomKey">
+            <xs:selector xpath="matieres/matiere"/>
+            <xs:field xpath="nom"/>
+        </xs:key>
+        <xs:keyref name="enseignantMatiereRef" refer="matiereNomKey">
+            <xs:selector xpath="enseignants/enseignant"/>
+            <xs:field xpath="matiere"/>
+        </xs:keyref>
+
+        <!-- departement.nom <- enseignant.departement -->
+        <xs:key name="departementNomKey">
+            <xs:selector xpath="departements/departement"/>
+            <xs:field xpath="nom"/>
+        </xs:key>
+        <xs:keyref name="enseignantDepartementRef" refer="departementNomKey">
+            <xs:selector xpath="enseignants/enseignant"/>
+            <xs:field xpath="departement"/>
+        </xs:keyref>
+    </xs:element>
+</xs:schema>
